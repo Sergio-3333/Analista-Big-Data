@@ -1,0 +1,70 @@
+Para conectar a la BBDD
+
+	sqlplus usuario/contraseña@cadena_de_conexion
+
+	p0or ejemplo:
+
+	sqlplus hr/hr@freepdb1
+
+Una vez conectado a sql*plus, para cambiar de usuario:
+
+	conn usuario/contraseña@cadena_de_conexion
+
+NOTA.	En sql*plus los comandos admiten abreviaturas y no necesitan ; como carácter de terminación
+
+NOTA.	Solo las sentencias SQL se envían al motor de BBDD para su ejecución
+
+Para limpiar la pantalla:
+	
+	CL[EAR] SCR[EEN]
+
+Algunos parámetros que podemos modificar son:
+
+	SET LINESIZE <N>
+	Cambia la anchura de la línea al mostrar resultados de las sentencias SELECT
+
+	SET PAGESIZE <n>
+	Controla el tamaño de página (cada cuántas filas se muestrar las cabeceras de las columnas
+
+Para mostrar el contenido del buffer (la última sentencia SQL enviada va la BBDD)
+
+	L[IST]
+
+Si queremos modificar alguna línea del buffer:
+
+	<n> --> Enter (para marcar la línea en la que vamos a hacer modificaciones)
+	C[HANGE] /texto_a_reemplazar/nuevo_texto
+
+Para ejecutar el contenido del buffer (enviar la sentencia SQL de nuevo a la BBDD para su ejecución)
+
+	R[UN]
+
+Si queremos guardar en un archivo todo lo que se muestra en consola:
+	
+	SPOOL nombre_fichero CRE[ATE] | APP[END] | REP[LACE]
+
+	Ejecutar los comandos de sql*plus o sentencias SQL
+
+	SPOOL OFF	(Para guardar el contenido en el archivo)
+	
+	o bien 
+	
+	SPOOL OUT	(para enviarlo a la impresora predeterminada)	
+
+Si queremos trabajar con ficheros:
+
+	Primero configurar el editor:
+
+		DEFINE _EDITOR=gedit
+
+	Editar el archivo (si no existe el archivo, se crea)
+
+		ED[IT] nombre_fichero.sql
+
+Para ejeuctar un fichero .sql
+
+	STA[RT] nombre_fichero
+
+	o bien
+
+	@ nombre_fichero

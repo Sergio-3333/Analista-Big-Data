@@ -2,17 +2,21 @@ Para conectar a la BBDD
 
 	sqlplus usuario/contraseña@cadena_de_conexion
 
-	p0or ejemplo:
+	por ejemplo:
 
 	sqlplus hr/hr@freepdb1
 
 Una vez conectado a sql*plus, para cambiar de usuario:
 
-	conn usuario/contraseña@cadena_de_conexion
+	CONN[ECT] usuario/contraseña@cadena_de_conexion
 
 NOTA.	En sql*plus los comandos admiten abreviaturas y no necesitan ; como carácter de terminación
 
 NOTA.	Solo las sentencias SQL se envían al motor de BBDD para su ejecución
+
+Para describir la estructura de una tabla o vista:
+
+	DESC[RIBE] tabla
 
 Para limpiar la pantalla:
 	

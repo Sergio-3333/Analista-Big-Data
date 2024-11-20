@@ -337,6 +337,10 @@ TRUNC(date[, 'fmt']):                   Returns date with the time portion of th
 /********/
 /* QUIZ */
 /********/
+
+--select length(concat(first_name,last_name)) 
+--from employees;
+
 /*
 
 ¿Cuáles de las siguientes afirmaciones son correctas acerca de las funciones a nivel de fila?
@@ -350,3 +354,20 @@ TRUNC(date[, 'fmt']):                   Returns date with the time portion of th
 7. Aceptan argumentos que pueden ser columnas o expresiones.
 
 */
+-------------------------------------------------------------------------------------------------------
+-- Fecha de renovacion de contrato (siguiente Lunes transcurridos 6 meses de la fecha de contratación)
+-------------------------------------------------------------------------------------------------------
+--SELECT  hire_date, 
+--        NEXT_DAY(ADD_MONTHS(hire_date, 6), 'MONDAY') AS "Fecha de renovación del contrato"
+--FROM employees;
+
+-- CALCULAR SALARIO ANUAL DE TODOS LOS EMPLEADOS CONTANDO TAMBIÉN SU POSIBLE COMISIÓN
+
+--SELECT  EMPLOYEE_ID,
+--        JOB_ID,
+--        SALARY, 
+--        COMMISSION_PCT, 
+--        (SALARY * (1 + (NVL(COMMISSION_PCT, 0) / 100))) * 12 AS SALARIO_ANUAL 
+--FROM EMPLOYEES;
+
+

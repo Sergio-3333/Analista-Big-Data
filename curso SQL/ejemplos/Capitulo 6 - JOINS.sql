@@ -14,15 +14,15 @@ Joins that are compliant with the standard ANSI SQL standard include the followi
   Cross joins
 */
 /*
-SELECT table1.column, table2.column
-FROM table1
-[NATURAL JOIN table2] |
-[JOIN table2 USING (column_name)] |
-[JOIN table2
-ON (table1.column_name = table2.column_name)]|
-[LEFT|RIGHT|FULL OUTER JOIN table2
-ON (table1.column_name = table2.column_name)]|
-[CROSS JOIN table2];
+    SELECT table1.column, table2.column
+    FROM table1
+    [NATURAL JOIN table2] |
+    [JOIN table2 USING (column_name)] |
+    [JOIN table2
+    ON (table1.column_name = table2.column_name)]|
+    [LEFT|RIGHT|FULL OUTER JOIN table2
+    ON (table1.column_name = table2.column_name)]|
+    [CROSS JOIN table2];
 */
 
 /*****************/
@@ -45,7 +45,52 @@ Creating Natural Joins
 --        location_id, 
 --        city
 --FROM departments
---NATURAL JOIN locations ;
+--NATURAL JOIN locations;
+
+-- sintáxis de Oracle
+--SELECT  d.department_id, 
+--        d.department_name,
+--        l.location_id, 
+----        d.location_id,
+--        l.city
+--FROM departments d, locations l
+--WHERE d.location_id = l.location_id;
+
+-------------------------------------------------------------
+-- seleccionar nombre del departamento y media de salarios
+-------------------------------------------------------------
+--SELECT  d.department_name,
+--        ROUND(AVG(e.salary), 2) AS media
+--FROM departments d, employees e
+--WHERE e.department_id = d.department_id
+--GROUP BY d.department_name
+--ORDER BY media DESC;
+
+
+-------------------------------------------------------------
+-- seleccionar ciudad, nombre del departamento y media de salarios
+-------------------------------------------------------------
+
+--SELECT  l.city,
+--        d.department_name,
+--        ROUND(AVG(e.salary), 2) AS media
+--FROM    locations l, 
+--        departments d, 
+--        employees e
+--WHERE e.department_id = d.department_id 
+--AND l.location_id = d.location_id
+--GROUP BY l.city, d.department_name
+--ORDER BY l.city, d.department_name;
+
+---------------------------------------------------------
+--Unión por todas las columnas que coincidan en nombre!!!
+
+--SELECT  d.department_name,
+--        ROUND(AVG(salary)) AS media
+--FROM departments d
+--NATURAL JOIN employees e
+--GROUP BY d.department_name
+--ORDER BY media DESC;
 
 --SELECT  department_id, 
 --        department_name,
@@ -59,6 +104,7 @@ Creating Natural Joins
 /* USING clause */
 /****************/
 /*
+
 Creating Joins with the USING Clause:
 
   If several columns have the same names but the data
@@ -70,6 +116,7 @@ Creating Joins with the USING Clause:
   
   The NATURAL JOIN and USING clauses are mutually
   exclusive.
+  
 */
 
 --SELECT  employee_id, 
@@ -138,7 +185,8 @@ Creating Joins with the ON Clause:
 
 --SELECT e.employee_id, e.last_name, e.department_id,
 --d.department_id, d.location_id
---FROM employees e JOIN departments d
+--FROM employees e 
+--JOIN departments d
 --ON (e.department_id = d.department_id)
 --WHERE e.manager_id = 149 ;
 
@@ -146,7 +194,7 @@ Creating Joins with the ON Clause:
 /* SELF joins */
 /**************/
 
---SELECT  worker.last_name  || ' works for ' || manager.last_name 
+--SELECT worker.last_name  || ' works for ' || manager.last_name 
 --FROM employees worker 
 --JOIN employees manager
 --ON (worker.manager_id = manager.employee_id);
@@ -157,11 +205,18 @@ Creating Joins with the ON Clause:
 
 --SELECT  e.last_name, 
 --        e.salary, 
---        j.grade_level
+--        j.job_level
 --FROM employees e 
 --JOIN job_grades j
 --ON e.salary BETWEEN j.lowest_sal AND j.highest_sal;
 
+-- sintáxis sin usar estándar ANSI
+
+--SELECT  last_name, 
+--        salary, 
+--        job_level
+--FROM employees, job_grades
+--WHERE salary BETWEEN lowest_sal AND highest_sal;
 
 /*
 INNER Versus OUTER Joins:
@@ -189,6 +244,16 @@ INNER Versus OUTER Joins:
 --LEFT OUTER JOIN departments d
 --ON (e.department_id = d.department_id) ;
 
+--sintáxis no estándar (solo funciona en Oracle)
+-- OPERADOR + A CONTINUACIÓN DE LA COLUMNA CARENTE DE INFORMACIÓN
+
+--SELECT  e.last_name, 
+--        e.department_id, 
+--        d.department_name
+--FROM employees e , departments d
+--WHERE (e.department_id = d.department_id(+)) ;
+
+
 /********************/
 /* RIGHT OUTER JOIN */
 /********************/
@@ -205,11 +270,12 @@ INNER Versus OUTER Joins:
 /*******************/
 
 --SELECT  e.last_name, 
---        e.department_id, 
+--        d.department_id, 
 --        d.department_name
 --FROM employees e 
 --FULL OUTER JOIN departments d
 --ON (e.department_id = d.department_id) ;
+
 
 /*
 Cartesian Products:
@@ -234,3 +300,16 @@ Cartesian Products:
 --        department_name
 --FROM employees
 --CROSS JOIN departments;
+
+--SELECT DEPARTMENT_NAME, EMPLOYEE_ID 
+--FROM DEPARTMENTS, EMPLOYEES;
+
+
+
+
+
+
+
+
+
+

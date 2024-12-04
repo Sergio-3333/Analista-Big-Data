@@ -1,0 +1,96 @@
+{
+    "glossary": {
+        "title": "example glossary",
+		"GlossDiv": {
+            "title": "S",
+			"GlossList": {
+                "GlossEntry": {
+                    "ID": "SGML",
+					"SortAs": "SGML",
+					"GlossTerm": "Standard Generalized Markup Language",
+					"Acronym": "SGML",
+					"Abbrev": "ISO 8879:1986",
+					"GlossDef": {
+                        "para": "A meta-markup language, used to create markup languages such as DocBook.",
+						"GlossSeeAlso": ["GML", "XML"]
+                    },
+					"GlossSee": "markup"
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OLTP (ONLINE TRANSACTION PROCESSING)
+
+OLAP (ONLINE ANALYTICAL PROCESSING)
+
+
+
+
+
+Recuperación de datos:
+	SELECT
+
+DML (Data Manipulation Language):
+	INSERT
+	UPDATE
+	DELETE
+	
+DDL (Data Definition Language):
+	CREATE
+	ALTER
+	DROP
+	RENAME
+	TRUNCATE
+	COMMENT
+	
+DCL (Data Control Language):
+	GRANT
+	REVOKE
+	
+TC (Transaction Control):
+	COMMIT
+	ROLLBACK
+	SAVEPOINT
+	
+	
+CREATE
+tablas
+vistas
+vistas materializadas
+indices
+secuencias
+sinónimos
+procedimientos
+funciones
+paquetes
+triggers
+roles
+usuarios
+
+
+
+
+
+
+
+
+
+

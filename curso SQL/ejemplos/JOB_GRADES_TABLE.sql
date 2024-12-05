@@ -1,20 +1,3 @@
-DROP TABLE job_grades;
-
-
-CREATE TABLE job_grades (
-job_level 		CHAR(1),
-lowest_sal 	NUMBER(8,2) NOT NULL,
-highest_sal	NUMBER(8,2) NOT NULL
-);
-
-ALTER TABLE job_grades
-ADD CONSTRAINT jobgrades_grade_pk PRIMARY KEY (job_level);
-
-INSERT INTO job_grades VALUES ('A', 1000, 2999);
-INSERT INTO job_grades VALUES ('B', 3000, 5999);
-INSERT INTO job_grades VALUES ('C', 6000, 9999);
-INSERT INTO job_grades VALUES ('D', 10000, 14999);
-INSERT INTO job_grades VALUES ('E', 15000, 24999);
-INSERT INTO job_grades VALUES ('F', 25000, 40000);
-
-COMMIT;
+version https://git-lfs.github.com/spec/v1
+oid sha256:350ec11df9e0165bff010873d5b3747f14c3423346c712054038636a4ed57696
+size 534

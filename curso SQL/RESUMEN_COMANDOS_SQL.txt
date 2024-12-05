@@ -1,26 +1,3 @@
-
-
-Recuperación de datos:
-	SELECT
-
-DML (Data Manipulation Language):
-	INSERT
-	UPDATE
-	DELETE
-	
-DDL (Data Definition Language):
-	CREATE
-	ALTER
-	DROP
-	RENAME
-	TRUNCATE
-	COMMENT
-	
-DCL (Data Control Language):
-	GRANT
-	REVOKE
-	
-TC (Transaction Control):
-	COMMIT
-	ROLLBACK
-	SAVEPOINT
+version https://git-lfs.github.com/spec/v1
+oid sha256:00096c72ac242b652fdf3677b5e6150c8f9c604d2c66c1078482b8037ca4b592
+size 302

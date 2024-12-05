@@ -1,0 +1,42 @@
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>70</x><y>300</y><w>140</w><h>60</h></coordinates><panel_attributes>*Mapreduce (2000)*
+--
+Java 
+Python
+bg=orange
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>200</x><y>310</y><w>170</w><h>40</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+       envía</panel_attributes><additional_attributes>150;20;10;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>350</x><y>230</y><w>160</w><h>80</h></coordinates><panel_attributes>*Master node*
+--
+Coordina y
+administra tareas 
+del cluster
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>350</x><y>310</y><w>160</w><h>50</h></coordinates><panel_attributes>*YARN ResourceManager*
+Coordina los recursos 
+globales del clúster
+bg=green
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>500</x><y>320</y><w>160</w><h>40</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+     asigna recursos</panel_attributes><additional_attributes>140;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>520</x><y>140</y><w>140</w><h>220</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+</panel_attributes><additional_attributes>120;10;10;10;10;200</additional_attributes></element><element><id>Relation</id><coordinates><x>520</x><y>330</y><w>140</w><h>240</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>120;220;10;220;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>640</x><y>60</y><w>160</w><h>60</h></coordinates><panel_attributes>*Worker Node*
+--
+Computación y 
+sistema de archivos HDFS
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>640</x><y>120</y><w>160</w><h>50</h></coordinates><panel_attributes>*YARN NodeManager*
+Administra recursos y 
+ejecuta las tareas asignadas
+bg=green
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>640</x><y>260</y><w>160</w><h>60</h></coordinates><panel_attributes>*Worker Node*
+--
+Computación y 
+sistema de archivos HDFS
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>640</x><y>320</y><w>160</w><h>50</h></coordinates><panel_attributes>*YARN NodeManager*
+Administra recursos y 
+ejecuta las tareas asignadas
+bg=green
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>640</x><y>520</y><w>160</w><h>50</h></coordinates><panel_attributes>*YARN NodeManager*
+Administra recursos y 
+ejecuta las tareas asignadas
+bg=green
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>640</x><y>460</y><w>160</w><h>60</h></coordinates><panel_attributes>*Worker Node*
+--
+Computación y 
+sistema de archivos HDFS
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element></diagram>

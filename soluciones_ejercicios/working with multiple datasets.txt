@@ -1,0 +1,160 @@
+-- INNER JOIN
+
+SELECT c.cust_id, fname, lname
+total FROM customers c
+JOIN orders o
+ON (c.cust_id = o.cust_id);
+
+-- LEFT OUTER JOIN
+
+SELECT c.cust_id, fname, lname, order_id
+FROM customers c
+LEFT OUTER JOIN orders o
+ON (c.cust_id = o.cust_id)
+ORDER BY c.cust_id;
+
+-- RIGHT OUTER JOIN
+
+SELECT c.cust_id, fname, lname, order_id
+FROM customers c
+RIGHT OUTER JOIN orders o
+ON (c.cust_id = o.cust_id)
+ORDER BY c.cust_id;
+
+-- FULL OUTER JOIN
+
+SELECT c.cust_id, fname, lname, order_id
+FROM customers c
+FULL OUTER JOIN orders o
+ON (c.cust_id = o.cust_id)
+ORDER BY c.cust_id DESC;
+
+-- FIND UNMATCHED ENTRIES WITH OUTER JOIN
+
+SELECT c.cust_id, fname, lname, order_id
+FROM customers c
+FULL OUTER JOIN orders o
+ON (c.cust_id = o.cust_id)
+WHERE c.cust_id IS NULL
+OR o.order_id IS NULL;
+
+-- NULL ARE NOT TYPICALLY MATCHED
+
+SELECT c.cust_id, fname, lname, order_id
+FROM customers c
+JOIN orders o
+ON (c.cust_id = o.cust_id);
+
+-- Use NULL-safe equality to match NULLs
+
+SELECT DISTINCT c.cust_id, fname, lname, order_id
+FROM customers c
+JOIN orders o
+ON (c.cust_id <=> o.cust_id)
+ORDER BY c.cust_id DESC;
+
+-- NON EQUIJOINS
+
+-- CREAR LA TABLA SALARY_GRADES 
+
+DROP TABLE salary_grades;
+
+CREATE EXTERNAL TABLE salary_grades (
+    grade INT,
+    min_amt INT,
+    max_amt INT
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+LOCATION '/analyst/dualcore/salary_grades';
+
+
+INSERT INTO salary_grades
+VALUES (1, 10000, 19999);
+
+INSERT INTO salary_grades
+VALUES (2, 20000, 29999);
+
+INSERT INTO salary_grades
+VALUES (3, 30000, 39999);
+
+INSERT INTO salary_grades
+VALUES (4, 40000, 49999);
+
+INSERT INTO salary_grades
+VALUES (5, 50000, 59999);
+
+--
+
+SELECT fname, lname,
+grade FROM employees e
+JOIN salary_grades g
+ON (salary >= min_amt
+AND salary <= max_amt);
+
+-- Or equivalently
+
+SELECT fname, lname, grade 
+FROM employees e
+JOIN
+salary_grades g
+ON (salary BETWEEN min_amt AND max_amt);
+
+-- USING IN OPERATOR (to find employees with lower salary for grade)
+
+SELECT fname, lname, salary, grade 
+FROM employees e
+JOIN
+salary_grades g
+ON (salary IN (min_amt));
+
+-- CARTESSIAN PRODUCTS
+DROP TABLE palos;
+
+CREATE EXTERNAL TABLE palos (
+  palo STRING
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+LOCATION '/analyst/dualcore/palos';
+
+DROP TABLE cartas;
+
+CREATE EXTERNAL TABLE cartas (
+  valor STRING
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+LOCATION '/analyst/dualcore/cartas';
+
+INSERT INTO palos
+VALUES  ('Oros'),
+        ('Copas'),
+        ('Espadas'),
+        ('Bastos');
+    
+INSERT INTO cartas
+VALUES  ('1'),
+        ('2'),
+        ('3'),
+        ('4'),
+        ('5'),
+        ('6'),
+        ('7'),
+        ('Sota'),
+        ('Caballo'),
+        ('Rey');
+    
+SELECT CONCAT(valor,' de ',palo) as Carta
+FROM palos
+CROSS JOIN cartas
+ORDER BY RAND(UNIX_TIMESTAMP());
+
+-- LEFT SEMI JOINS
+
+SELECT c.*
+FROM customers c
+LEFT SEMI JOIN orders o
+ON (c.cust_id = o.cust_id);

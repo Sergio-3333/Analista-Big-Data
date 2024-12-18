@@ -1,3 +1,21 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3f5757844b4ec81732ad6ee767a9b0009b92d65d3e7246800276336536b21543
-size 597
+URL: labs.puedata.com
+
+Uusario, contraseña:
+TR-11653_Analista-01	pzxh3ije4o
+TR-11653_Analista-02	xudc5t5chu
+TR-11653_Analista-03	nxdxkhongk
+TR-11653_Analista-04	r1y29bohxq
+TR-11653_Analista-05	4ldrakwh3h
+TR-11653_Analista-06	llscjxne19
+TR-11653_Analista-07	2j90mdqkdx
+TR-11653_Analista-08	naz0n3y0ni
+TR-11653_Analista-09	zu4j3o602l
+TR-11653_Analista-10	ro40nq638d
+TR-11653_Analista-11	vtymya7gid
+TR-11653_Analista-12	u8relwbnda
+TR-11653_Analista-13	n3khhftjb6
+TR-11653_Analista-14	6k34ohgp53
+TR-11653_Analista-15	frunarr8mj
+TR-11653_Analista-16	218tblvc59
+User root: training
+Pass root: training

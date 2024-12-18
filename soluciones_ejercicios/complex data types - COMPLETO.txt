@@ -1,0 +1,170 @@
+CREATE TABLE complex_data_types_example (
+    id INT,
+    name STRING,
+    
+    simple_map MAP<STRING, INT>,
+    simple_array ARRAY<STRING>,
+    simple_struct STRUCT<name: STRING, age: INT>,
+    
+    map_of_arrays MAP<STRING, ARRAY<INT>>,
+    map_of_structs MAP<STRING, STRUCT<name: STRING, age: INT>>,
+    
+    array_of_maps ARRAY<MAP<STRING, INT>>,
+    array_of_structs ARRAY<STRUCT<name: STRING, age: INT>>,
+    
+    struct_of_maps STRUCT<map1: MAP<STRING, INT>, map2: MAP<STRING, STRING>>,
+    struct_of_arrays STRUCT<array1: ARRAY<INT>, array2: ARRAY<STRING>>
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+COLLECTION ITEMS TERMINATED BY '|'
+MAP KEYS TERMINATED BY ':';
+
+--------------------------------------------------------------------------------------
+
+INSERT INTO complex_data_types_example
+VALUES 
+(
+    1,
+    'John Doe',
+    MAP('key1', 100, 'key2', 200),
+    ARRAY('apple', 'banana', 'cherry'),
+    NAMED_STRUCT('name', 'John', 'age', 30),
+    MAP('group1', ARRAY(1, 2, 3), 'group2', ARRAY(4, 5, 6)),
+    MAP('person1', NAMED_STRUCT('name', 'John', 'age', 30), 'person2', NAMED_STRUCT('name', 'Alice', 'age', 25)),
+    ARRAY(MAP('a', 1, 'b', 2), MAP('c', 3, 'd', 4)),
+    ARRAY(NAMED_STRUCT('name', 'John', 'age', 30), NAMED_STRUCT('name', 'Alice', 'age', 25)),
+    NAMED_STRUCT('map1', MAP('a', 1, 'b', 2), 'map2', MAP('x', 'y', 'z', 'w')),
+    NAMED_STRUCT('array1', ARRAY(1, 2, 3), 'array2', ARRAY('apple', 'orange', 'grape'))
+),
+(
+    2,
+    'Alice Smith',
+    MAP('key1', 300, 'key2', 400),
+    ARRAY('dog', 'cat', 'bird'),
+    NAMED_STRUCT('name', 'Alice', 'age', 25),
+    MAP('group1', ARRAY(10, 20, 30), 'group2', ARRAY(40, 50, 60)),
+    MAP('person1', NAMED_STRUCT('name', 'Alice', 'age', 25), 'person2', NAMED_STRUCT('name', 'Bob', 'age', 35)),
+    ARRAY(MAP('x', 5, 'y', 6), MAP('z', 7, 'w', 8)),
+    ARRAY(NAMED_STRUCT('name', 'Alice', 'age', 25), NAMED_STRUCT('name', 'Bob', 'age', 35)),
+    NAMED_STRUCT('map1', MAP('x', 5, 'y', 6), 'map2', MAP('p', 'q', 'r', 's')),
+    NAMED_STRUCT('array1', ARRAY(10, 20, 30), 'array2', ARRAY('dog', 'cat', 'bird'))
+),
+(
+    3,
+    'Bob Johnson',
+    MAP('key1', 500, 'key2', 600),
+    ARRAY('car', 'bike', 'train'),
+    NAMED_STRUCT('name', 'Bob', 'age', 35),
+    MAP('group1', ARRAY(100, 200, 300), 'group2', ARRAY(400, 500, 600)),
+    MAP('person1', NAMED_STRUCT('name', 'Bob', 'age', 35), 'person2', NAMED_STRUCT('name', 'Charlie', 'age', 40)),
+    ARRAY(MAP('m', 9, 'n', 10), MAP('o', 11, 'p', 12)),
+    ARRAY(NAMED_STRUCT('name', 'Bob', 'age', 35), NAMED_STRUCT('name', 'Charlie', 'age', 40)),
+    NAMED_STRUCT('map1', MAP('m', 9, 'n', 10), 'map2', MAP('v', 'w', 'x', 'y')),
+    NAMED_STRUCT('array1', ARRAY(100, 200, 300), 'array2', ARRAY('car', 'bike', 'train'))
+);
+
+------------------------------------
+-- HIVE examples
+------------------------------------
+
+-- ARRAYS
+
+SELECT * FROM complex_data_types_example;
+
+-- size of the array
+
+SELECT id, name, simple_array, size(simple_array) AS size 
+FROM complex_data_types_example
+WHERE id = 1;
+
+-- explode() to unnest the array
+
+SELECT explode(simple_array) AS size 
+FROM complex_data_types_example
+WHERE id = 1;
+
+-- IT FAILS, no other column can be select when using UDTF´s
+
+-- SELECT id, name, explode(simple_array) AS size 
+-- FROM complex_data_types_example
+-- WHERE id = 1;
+
+-- SOLUTION using a lateral view
+
+SELECT id, name, array_value
+FROM complex_data_types_example
+LATERAL VIEW
+explode(simple_array) a as array_value
+WHERE id = 1;
+
+-- STRUCT
+
+SELECT 
+    id, name,
+    simple_struct.name AS person_name,
+    simple_struct.age AS person_age
+FROM 
+    complex_data_types_example;
+
+-- MAP
+
+SELECT 
+    id,
+    name,
+    simple_map['key1'] AS key1_value,
+    simple_map['key2'] AS key2_value
+FROM 
+    complex_data_types_example;
+    
+------------------------------------
+-- IMPALA differences
+------------------------------------
+
+-- ARRAY
+
+SELECT item, pos
+FROM complex_data_types_example.simple_array;
+
+-- Impala does not support explode for lateral views, but you can do this:
+
+SELECT 
+    id,
+    name,
+    item,
+    pos
+FROM 
+    complex_data_types_example, complex_data_types_example.simple_array
+WHERE id = 1;
+
+-- STRUCT (same as Hive)
+
+SELECT 
+    id,
+    name,
+    simple_struct.name AS person_name,
+    simple_struct.age AS person_age
+FROM 
+    complex_data_types_example
+WHERE id = 1;
+
+-- MAP
+
+SELECT key, value
+FROM complex_data_types_example.simple_map;
+
+-- if we need additional columns  (same than Hive):
+
+SELECT id, name, key, value
+FROM complex_data_types_example c, complex_data_types_example.simple_map m
+WHERE id = 1
+AND key = 'key1'
+AND value > 100; -- we can also filter by key or by value
+
+-- no size() function for Impala, but we can use count(*)
+
+SELECT id, name, COUNT(*) AS size
+FROM complex_data_types_example,
+complex_data_types_example.simple_array 
+GROUP BY id, name;
+

@@ -1,0 +1,33 @@
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>70</x><y>130</y><w>180</w><h>140</h></coordinates><panel_attributes>*customers*
+--
+cust_id            	int	
+fname	             string	
+lname	             string	
+address	          string	
+city	                  string	
+state	               string	
+zipcode	          string
+group=group-3</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>310</x><y>130</y><w>180</w><h>80</h></coordinates><panel_attributes>*orders*
+--
+order_id	          int	
+cust_id	            int	
+order_date	     timestamp
+group=group-2</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>550</x><y>130</y><w>180</w><h>80</h></coordinates><panel_attributes>*order_details*
+--
+order_id	      int	
+prod_id	        int
+group=group-1</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>830</x><y>150</y><w>180</w><h>150</h></coordinates><panel_attributes>*products*
+--
+prod_id	          int	
+brand	            string	
+name	             string	
+price	              int	
+cost	                int	
+shipping_wt	  int
+group=group-0</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>240</x><y>150</y><w>90</w><h>50</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>70;30;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>70</x><y>150</y><w>180</w><h>20</h></coordinates><panel_attributes>bg=gray
+group=group-3</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>310</x><y>170</y><w>180</w><h>20</h></coordinates><panel_attributes>bg=gray
+group=group-2</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>550</x><y>150</y><w>180</w><h>20</h></coordinates><panel_attributes>bg=gray
+group=group-1</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>830</x><y>170</y><w>180</w><h>20</h></coordinates><panel_attributes>bg=gray
+group=group-0</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>550</x><y>170</y><w>180</w><h>20</h></coordinates><panel_attributes>bg=gray
+group=group-1</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>310</x><y>150</y><w>180</w><h>20</h></coordinates><panel_attributes>bg=gray
+group=group-2</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>480</x><y>150</y><w>90</w><h>40</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>70;10;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>720</x><y>170</y><w>130</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>110;10;10;10</additional_attributes></element></diagram>

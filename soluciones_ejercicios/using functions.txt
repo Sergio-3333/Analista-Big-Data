@@ -1,0 +1,157 @@
+SELECT order_id, cust_id, extract (hour from ORDER_DATE)
+FROM orders 
+LIMIT 10; 
+
+SELECT order_id, cust_id, hour(ORDER_DATE)
+FROM orders 
+LIMIT 10; 
+
+-- Most active hours
+SELECT hour(order_date) AS hour, COUNT(*) AS hr_count
+  FROM analyst.orders
+  GROUP BY hour(order_date)
+  ORDER BY hr_count DESC
+  LIMIT 3;
+
+-- Least active hours
+SELECT hour(order_date) AS hour, COUNT(*) AS hr_count
+  FROM analyst.orders
+  GROUP BY hour(order_date)
+  ORDER BY hr_count
+  LIMIT 3;
+  
+  
+--Find the five items that provide the largest profit. (They should all be servers.)
+
+SELECT prod_id, brand, name, (price - cost) AS profit
+FROM analyst.products
+ORDER BY profit DESC
+LIMIT 5;
+  
+--What items provide no profit, or actually cost Dualcore more than they charge for it? Use a filter to return only the rows for which this is the case. (Your query should
+--return three rows.)
+
+SELECT prod_id, brand, name, price, cost, (price - cost) AS profit
+FROM analyst.products 
+WHERE (price-cost) <= 0;
+  
+--If either of the price or the cost column has a NULL value for a row, then that row would not be included in the previous queries. Do the following to check how
+--complete this data is.
+
+--First check either of the columns for NULL values using a null operator. Does the column have any NULL values?
+
+-- Checking each column separately
+SELECT * FROM products WHERE price IS NULL;
+SELECT * FROM products WHERE cost IS NULL;
+
+--Now write a single query that will check both columns for NULL values. Are there any?
+
+SELECT * FROM products
+WHERE price IS NULL OR cost IS NULL;
+  
+--Averages
+
+--Answer the following about averages for different brands.
+
+--Write a query to find the average cost, average price, and average profit of all the items in the products table available for purchase from Dualcore. (The query shows
+--an average profit of 3004.278276481149, or around $30.04.)
+
+SELECT avg(price), avg(cost), avg(price - cost) AS avg_profit
+FROM analyst.products;
+
+--Modify the previous query to find the same averages for each brand and provide a better formatted result by rounding the averages to the nearest penny (that is, the
+--nearest integer). (Your query should return 47 rows.)
+
+SELECT brand, 
+       round(avg(price)), 
+       round(avg(cost)),
+       round(avg(price - cost)) AS avg_profit
+FROM analyst.products 
+GROUP BY brand;
+
+--Modify the query to filter the results, so you only get those brands with an average price greater than $1000 ( 100000 ). Write down the largest average price for the
+--next problem. (Your query should return only two rows.)
+
+SELECT  brand, 
+        round(avg(price)), 
+        round(avg(cost)),
+        round(avg(price - cost)) AS avg_profit
+FROM analyst.products 
+GROUP BY brand
+HAVING avg(price) > 100000;
+
+--Find the items whose price is larger than the largest average price that you found for the previous problem. (Your query should return 20 rows.)
+
+SELECT brand, name, price FROM analyst.products
+  WHERE price > 184237;
+  
+-- LOS DOS EJERCICIOS ANTERIORES EN LA MISMA SENTENCIA
+
+SELECT brand, name, price
+FROM analyst.products
+WHERE price > (
+    SELECT MAX(avg_price)
+    FROM (
+        SELECT ROUND(AVG(price)) AS avg_price
+        FROM analyst.products
+        GROUP BY brand
+        HAVING AVG(price) > 100000
+    ) AS subquery
+)
+LIMIT 20;
+
+-- con subconsultas with
+WITH subquery AS (
+    SELECT ROUND(AVG(price)) AS avg_price
+    FROM analyst.products
+    GROUP BY brand
+    HAVING AVG(price) > 100000
+)
+SELECT brand, name, price
+FROM analyst.products
+WHERE price > (SELECT MAX(avg_price) FROM subquery)
+LIMIT 20;
+
+--Bonus Exercise: Price-to-Profit Ratio
+
+--How much does the price-to-profit ratio vary among items? If you get a strange result, check your query and think about what might give that result.
+
+--???
+SELECT MIN(price/(price - cost)) AS min_ratio,
+       MAX(price/(price - cost)) AS max_ratio
+FROM analyst.products;
+
+SELECT MIN(if(price > cost,price/(price - cost),NULL)) AS min_ratio,
+       MAX(if(price > cost,price/(price - cost),NULL)) AS max_ratio
+FROM analyst.products;
+
+--How much does it change within a brand?
+
+SELECT  brand, 
+        MIN(if(price > cost,price/(price - cost),NULL)) AS min_ratio,
+        MAX(if(price > cost,price/(price - cost),NULL)) AS max_ratio
+FROM analyst.products GROUP BY brand;
+
+
+--What ten items have the largest price-to-profit ratio? (That is, they are relatively expensive for the amount of money they bring in to the company.)
+
+SELECT  prod_id, 
+        brand, 
+        name, 
+        price, 
+        cost,
+        price/(price - cost) AS ratio,
+        round(((price-cost) / price) * 100, 5) as percentage
+FROM analyst.products
+ORDER BY ratio DESC
+LIMIT 10;
+  
+--Compare price-to-profit ratios for items similar to those. Purely from a price-to- profit perspective, would you recommend Dualcore stop carrying any particular items
+--from a particular brand?
+
+SELECT prod_id, brand, name, price, cost,
+    price/(price - cost) AS ratio
+  FROM analyst.products
+  WHERE name LIKE '8GB%Dual Channel Desktop Memory Kit%';
+
+--What other things might Dualcore need to consider before agreeing to stop carrying those items?

@@ -1,0 +1,31 @@
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>160</x><y>40</y><w>310</w><h>120</h></coordinates><panel_attributes>*Array*
+(secuencia de elementos indexados por posición)
+--
+
+['valor1', 'valor2', 'valor3', 'valor4', 'valor5', 'valor6']
+
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>170</x><y>130</y><w>30</w><h>20</h></coordinates><panel_attributes>0
+bg=none</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>220</x><y>130</y><w>30</w><h>20</h></coordinates><panel_attributes>1</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>270</x><y>130</y><w>30</w><h>20</h></coordinates><panel_attributes>2</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>320</x><y>130</y><w>30</w><h>20</h></coordinates><panel_attributes>3</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>370</x><y>130</y><w>30</w><h>20</h></coordinates><panel_attributes>4</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>420</x><y>130</y><w>30</w><h>20</h></coordinates><panel_attributes>5</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>160</x><y>170</y><w>310</w><h>190</h></coordinates><panel_attributes>*Map*
+(asociaciones de clave y valor)
+(todas las claves deben tener el mismo tipo de dato)
+(todos los valores deben tener el mismo tipo de dato)
+--
+
+{
+ movil:       '666777888',
+ fijo:           '91333444555'
+ trabajo:     '888777666'
+}</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>160</x><y>370</y><w>310</w><h>190</h></coordinates><panel_attributes>*Struct*
+(records)
+(campos con valores de diversos tipos de datos)
+--
+
+{
+calle: 'Calle lo que sea'
+numero: 24
+piso: 3
+letra: 'D'
+codigo_postal: 28765
+}
+</panel_attributes><additional_attributes></additional_attributes></element></diagram>

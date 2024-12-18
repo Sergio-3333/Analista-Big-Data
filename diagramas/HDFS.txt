@@ -1,0 +1,61 @@
+{rtf1ansiansicpg1252cocoartf2580
+cocoatextscaling0cocoaplatform0{fonttblf0fswissfcharset0 Helvetica;}
+{colortbl;r# listar contenido del directorio raiz en HDFS
+
+hdfs dfs -ls /
+
+#listar el contenido del directorio /user
+
+hdfs dfs -ls /user
+
+#listar el contenido del directorio raiz del usuario "training"
+
+hdfs dfs -ls /user/training
+
+# crear el directorio "pruebas" en el directorio raiz del usuario "training"
+
+hdfs dfs -mkdir /user/training/pruebas
+
+# comprobar la creacion del nuevo directorio
+
+hdfs dfs -ls /user/training
+
+# crear el fichero "ratings_2013.txt" en el directorio "pruebas"
+
+hdfs dfs -put /home/training/training_materials/analyst/data/ratings_2013.txt /user/training/pruebas
+
+# comprobar la creacion del archivo
+
+hdfs dfs -ls /user/training/pruebas/ratings_2013.txt
+
+# comprobar el factor de replicación por defecto
+
+hdfs dfs -stat %r /user/training/pruebas/ratings_2013.txt
+
+# comprobar el tamaño de bloque en HDFS
+
+# en bytes
+hdfs getconf -confKey dfs.blocksize
+
+# en MegaBytes
+hdfs getconf -confKey dfs.blocksize | awk '{print $1 / (1024*1024) " MB"}'
+
+# file size en mb
+
+hdfs dfs -du -h /user/training/pruebas/ratings_2013.txt
+
+# ver el contenido del archivo
+
+hdfs dfs -cat /user/training/pruebas/ratings_2013.txt
+
+# copiar el archivo de nuevo al sistema operativo 
+
+hdfs dfs -get /user/training/pruebas/ratings_2013.txt /home/training/Downloads/
+
+# eliminar el archivo "ratings_2013.txt"
+
+hdfs dfs -rm /user/training/pruebas/ratings_2013.txt
+
+# eliminar el directorio "pruebas" 
+
+hdfs dfs -rm -r -f /user/training/pruebas}

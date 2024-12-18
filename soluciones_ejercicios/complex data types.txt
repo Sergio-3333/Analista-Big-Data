@@ -1,0 +1,150 @@
+/*DROP TABLE complex_data_types_example;
+
+CREATE TABLE complex_data_types_example (
+    id INT,
+    name STRING,
+    
+    simple_map MAP<STRING, INT>,
+    simple_array ARRAY<STRING>,
+    simple_struct STRUCT<name: STRING, age: INT>
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+COLLECTION ITEMS TERMINATED BY '|'
+MAP KEYS TERMINATED BY ':'
+STORED AS TEXTFILE;
+
+--------------------------------------------------------------------------------------
+
+INSERT INTO complex_data_types_example
+VALUES 
+(
+    1,
+    'John Doe',
+    MAP('key1', 100, 'key2', 200),
+    ARRAY('apple', 'banana', 'cherry'),
+    NAMED_STRUCT('name', 'John', 'age', 30)
+),
+(
+    2,
+    'Alice Smith',
+    MAP('key1', 300, 'key2', 400),
+    ARRAY('dog', 'cat', 'bird'),
+    NAMED_STRUCT('name', 'Alice', 'age', 25)
+),
+(
+    3,
+    'Bob Johnson',
+    MAP('key1', 500, 'key2', 600),
+    ARRAY('car', 'bike', 'train'),
+    NAMED_STRUCT('name', 'Bob', 'age', 35)
+);
+
+------------------------------------
+-- HIVE examples
+------------------------------------
+
+-- ARRAYS
+
+SELECT * FROM complex_data_types_example;
+
+-- size of the array
+
+SELECT id, name, simple_array, size(simple_array) AS size 
+FROM complex_data_types_example
+WHERE id = 1;
+
+-- explode() to unnest the array
+
+SELECT explode(simple_array) AS size 
+FROM complex_data_types_example
+WHERE id = 1;
+
+-- IT FAILS, no other column can be select when using UDTF´s
+
+-- SELECT id, name, explode(simple_array) AS size 
+-- FROM complex_data_types_example
+-- WHERE id = 1;
+
+-- SOLUTION using a lateral view
+
+SELECT id, name, array_value
+FROM complex_data_types_example
+LATERAL VIEW
+explode(simple_array) a as array_value
+WHERE id = 1;
+
+-- STRUCT
+
+SELECT 
+    id, name,
+    simple_struct.name AS person_name,
+    simple_struct.age AS person_age
+FROM 
+    complex_data_types_example;
+
+-- MAP
+
+SELECT 
+    id,
+    name,
+    simple_map['key1'] AS key1_value,
+    simple_map['key2'] AS key2_value
+FROM 
+    complex_data_types_example;
+    
+------------------------------------
+-- IMPALA differences
+------------------------------------
+
+create table complex_data_parquet
+stored as parquet
+as select * from complex_data_types_example;
+
+
+-- ARRAY
+
+SELECT item, pos
+FROM complex_data_parquet.simple_array;
+
+-- Impala does not support explode for lateral views, but you can do this:
+
+SELECT 
+    id,
+    name,
+    item,
+    pos
+FROM 
+    complex_data_parquet, complex_data_parquet.simple_array
+WHERE id = 1;
+
+-- STRUCT (same as Hive)
+
+SELECT 
+    id,
+    name,
+    simple_struct.name AS person_name,
+    simple_struct.age AS person_age
+FROM 
+    complex_data_parquet
+WHERE id = 1;
+
+-- MAP
+
+SELECT key, value
+FROM complex_data_parquet.simple_map;
+
+-- if we need additional columns  (same than Hive):
+
+SELECT id, name, key, value
+FROM complex_data_parquet c, complex_data_parquet.simple_map m
+WHERE id = 1
+AND key = 'key1'
+AND value > 100; -- we can also filter by key or by value
+
+-- no size() function for Impala, but we can use count(*)
+
+SELECT id, name, COUNT(*) AS size
+FROM complex_data_parquet,
+complex_data_parquet.simple_array 
+GROUP BY id, name;
